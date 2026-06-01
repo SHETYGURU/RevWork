@@ -1,0 +1,73 @@
+1 Create a program that:
+
+Accepts marks for 10 students
+Uses built-in functions to find:
+highest mark
+lowest mark
+average
+sorted marks list
+
+2 Generate numbers from 1–100 and:
+
+Display only even numbers
+Display only numbers divisible by 5
+Find total count using built-in functions
+
+
+3 Given a list of names:
+
+Convert all names to uppercase
+Find names longer than 5 characters
+Sort alphabetically
+
+4 Create a shopping cart using lists:
+
+Add item prices
+Calculate total bill
+Find highest priced item
+Find lowest priced item
+
+5 Employee Salary Calculator (user defined functions)
+
+Create functions to:
+
+Calculate gross salary
+Calculate tax
+Calculate net salary
+
+6 Password Validator
+
+Write functions that check whether a password:
+
+Has minimum 8 characters
+Contains uppercase letters
+Contains numbers
+Contains special characters
+
+7 rime Number Checker
+
+Create a function to:
+
+Check whether a number is prime
+Display all prime numbers within a range
+
+8 Student Grade System
+
+Create functions to:
+
+Accept marks
+Calculate total
+Calculate percentage
+Assign grade
+
+9 Handle exceptions for:
+
+Division by zero
+Invalid input
+Non-numeric values
+
+10 Handle exceptions for:
+
+Division by zero
+Invalid input
+Non-numeric values
