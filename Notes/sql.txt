@@ -1,0 +1,203 @@
+1. 📌 DDL (Data Definition Language)
+🔹 Concept Questions (Answers)
+What is DDL?
+DDL (Data Definition Language) is used to define and modify database structure like tables, schemas, indexes.
+Difference between CREATE, ALTER, DROP, TRUNCATE?
+CREATE → creates objects
+ALTER → modifies structure
+DROP → deletes structure + data
+TRUNCATE → deletes all data, keeps structure
+What happens internally in TRUNCATE?
+It deallocates data pages and resets table faster than DELETE.
+🔹 Query Writing (Answers)
+CREATE TABLE EMP:
+CREATE TABLE EMP (
+ emp_id INT PRIMARY KEY,
+ name VARCHAR(50),
+ salary INT,
+ dept_id INT
+);
+Add column:
+ALTER TABLE EMP ADD email VARCHAR(100);
+Drop table:
+DROP TABLE TEMP_EMP;
+Truncate:
+TRUNCATE TABLE SALARY_HISTORY;
+Rename:
+RENAME TABLE EMP TO EMPLOYEE;
+🔹 Trick Answers
+Can TRUNCATE be rolled back?
+❌ No (in most DBs), it is DDL and auto-commit.
+DROP removes?
+✔ Structure + data both.
+2. 📌 DML (Data Manipulation Language)
+🔹 Concept Answers
+DML is used to manipulate data (INSERT, UPDATE, DELETE).
+DELETE removes rows, INSERT adds, UPDATE modifies.
+DELETE is DML.
+🔹 Query Answers
+Insert:
+INSERT INTO EMP VALUES (1,'John',50000,10);
+Update:
+UPDATE EMP SET salary = 60000 WHERE emp_id = 1;
+Delete:
+DELETE FROM EMP WHERE dept_id = 10;
+Multiple insert:
+INSERT INTO CUSTOMERS VALUES (1,'A'),(2,'B');
+Multiple update:
+UPDATE EMP SET salary = salary + 1000;
+🔹 Trick Answers
+Without WHERE → all rows affected
+UPDATE can cause data loss if misused
+3. 📌 DCL (Data Control Language)
+🔹 Concept Answers
+DCL controls access permissions.
+GRANT gives access, REVOKE removes access.
+🔹 Query Answers
+GRANT SELECT ON EMP TO user1;
+GRANT INSERT ON ORDERS TO user2;
+REVOKE DELETE ON EMP FROM user1;
+GRANT ALL ON EMP TO admin;
+REVOKE ALL ON EMP FROM user2;
+🔹 Trick Answers
+GRANT is not auto-reversible
+Losing SELECT = user cannot read data
+4. 📌 TCL (Transaction Control Language)
+🔹 Concept Answers
+Transaction = group of SQL operations
+COMMIT saves permanently, ROLLBACK undoes changes
+SAVEPOINT sets checkpoint
+🔹 Query Answers
+START TRANSACTION;
+
+INSERT INTO EMP VALUES (1,'A',50000);
+
+SAVEPOINT S1;
+
+UPDATE EMP SET salary=60000;
+
+ROLLBACK TO S1;
+
+COMMIT;
+🔹 Trick Answers
+After crash before commit → rollback happens
+Cannot rollback after commit
+5. 📌 Constraints
+🔹 Concept Answers
+Rules applied on table columns
+PK = unique + not null, UNIQUE allows null
+FK links two tables
+🔹 Query Answers
+CREATE TABLE EMP (
+ emp_id INT PRIMARY KEY,
+ email VARCHAR(100) UNIQUE,
+ salary INT CHECK (salary > 0),
+ dept_id INT,
+ FOREIGN KEY (dept_id) REFERENCES DEPT(dept_id),
+ status VARCHAR(10) DEFAULT 'ACTIVE'
+);
+🔹 Trick Answers
+Only one PRIMARY KEY per table
+FOREIGN KEY can be NULL
+6. 📌 JOINS
+🔹 Concept Answers
+JOIN combines rows from tables
+INNER = match only, OUTER = include unmatched
+SELF JOIN = table joins itself
+🔹 Query Answers
+SELECT e.name, d.dept_name
+FROM EMP e
+INNER JOIN DEPT d ON e.dept_id = d.dept_id;
+SELECT e.name
+FROM EMP e
+LEFT JOIN DEPT d ON e.dept_id = d.dept_id
+WHERE d.dept_id IS NULL;
+🔹 Trick Answers
+Missing join condition → Cartesian product
+ON vs WHERE: ON filters join, WHERE filters result
+7. 📌 SET OPERATORS
+🔹 Concept Answers
+UNION removes duplicates
+UNION ALL keeps duplicates
+INTERSECT = common rows
+🔹 Query Answers
+SELECT name FROM EMP
+UNION
+SELECT name FROM CONTRACT_EMP;
+SELECT name FROM EMP
+UNION ALL
+SELECT name FROM CONTRACT_EMP;
+🔹 Trick Answers
+UNION removes duplicates
+UNION ALL is faster
+8. 📌 SUBQUERIES
+🔹 Concept Answers
+Query inside another query
+IN checks multiple values
+🔹 Query Answers
+SELECT * FROM EMP
+WHERE salary > (SELECT AVG(salary) FROM EMP);
+SELECT * FROM EMP
+WHERE dept_id IN (SELECT dept_id FROM DEPT);
+🔹 Trick Answers
+Subquery can return single or multiple rows
+EXISTS is faster than IN in large data
+9. 📌 CORRELATED SUBQUERIES
+🔹 Concept Answers
+Depends on outer query
+Executes row by row
+🔹 Query Answers
+SELECT e1.*
+FROM EMP e1
+WHERE salary >
+(SELECT AVG(salary) FROM EMP e2 WHERE e1.dept_id = e2.dept_id);
+🔹 Trick Answers
+Slower due to row-by-row execution
+Can be replaced with JOIN
+10. 📌 WINDOW FUNCTIONS
+🔹 Concept Answers
+Used for analytics without collapsing rows
+RANK skips numbers, DENSE_RANK doesn’t
+🔹 Query Answers
+SELECT name, salary,
+RANK() OVER (ORDER BY salary DESC) rnk
+FROM EMP;
+SELECT name, dept_id,
+ROW_NUMBER() OVER (PARTITION BY dept_id ORDER BY salary DESC)
+FROM EMP;
+🔹 Trick Answers
+ROW_NUMBER = unique sequence
+GROUP BY reduces rows, window function does not
+11–14 (Procedure, Function, Trigger, View) Summary Answers
+📌 PROCEDURE
+CREATE PROCEDURE GetEmp()
+BEGIN
+ SELECT * FROM EMP;
+END;
+
+✔ Cannot return value directly
+✔ Used for business logic
+
+📌 FUNCTION
+CREATE FUNCTION CalcTax(salary INT)
+RETURNS INT
+RETURN salary * 0.1;
+
+✔ Returns single value
+✔ Can be used in SELECT
+
+📌 TRIGGER
+CREATE TRIGGER emp_audit
+AFTER INSERT ON EMP
+FOR EACH ROW
+INSERT INTO EMP_LOG VALUES (NEW.emp_id);
+
+✔ Executes automatically
+✔ Used for audit/logging
+
+📌 VIEW
+CREATE VIEW emp_view AS
+SELECT emp_id, name FROM EMP;
+
+✔ Virtual table
+✔ Does not store data

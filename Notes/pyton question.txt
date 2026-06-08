@@ -1,0 +1,1097 @@
+What is an Interpreter?
+
+An Interpreter is a program that reads and executes code line by line.
+
+How it works:
+Takes one line of code
+Translates it to machine language
+Executes it immediately
+Moves to next line
+
+Advantages:
+Easy to debug (error shown immediately)
+No need to compile entire program
+Faster development
+
+Disadvantages:
+Slower execution
+Errors stop execution instantly
+
+What is a Compiler?
+
+A Compiler is a program that translates the entire code at once into machine code before execution.
+
+How it works:
+Takes whole program
+Converts into machine code
+Generates executable file
+Then runs it
+Example Languages:
+C
+C++
+Go
+
+
+Advantages:
+Faster execution
+Optimized performance
+Errors shown after full compilation
+Disadvantages:
+Debugging is harder
+Must compile again after changes
+
+
+A List is an ordered, mutable (changeable) collection of items.
+
+Syntax:
+my_list = [10, 20, 30, "python"]
+Key Features:
+Ordered
+Allows duplicates
+Mutable (can modify)
+
+
+A Tuple is an ordered, immutable (cannot change) collection.
+
+Syntax:
+my_tuple = (10, 20, 30)
+Key Features:
+Ordered
+Allows duplicates
+Immutable (cannot modify)
+
+
+A Set is an unordered collection of unique elements.
+
+Syntax:
+my_set = {1, 2, 3, 3}
+Key Features:
+Unordered
+No duplicates
+
+Mutable (can add/remove)
+
+
+A Dictionary stores data in key-value pairs.
+
+Syntax:
+my_dict = {"name": "John", "age": 25}
+Key Features:
+Key-value structureKeys must be unique
+Mutable
+
+
+try Block
+Purpose:
+Code that may cause an error is written here
+try:
+    x = 10 / 0   # risky code
+2. except Block
+Purpose:
+Handles the error if it occurs
+try:
+    x = 10 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero")
+3. else Block
+Purpose:
+Runs only if NO exception occurs
+try:
+    x = 10 / 2
+except ZeroDivisionError:
+    print("Error")
+else:
+    print("Success:", x)
+4. finally Block
+Purpose:
+Runs always (whether error occurs or not)
+try:
+    x = 10 / 0
+except:
+    print("Error occurred")
+finally:
+    print("This always executes")
+
+Used for:
+
+Closing files
+Releasing resources
+Database connections
+5. raise Keyword
+Purpose:
+Manually throw an exception
+
+What is a Python Function?
+
+A function is a reusable block of code that performs a specific task.
+
+Instead of writing the same code again and again, you define it once and reuse it.
+
+Basic Syntax
+def function_name(parameters):
+    # code block
+    return value
+Example
+def add(a, b):
+    return a + b
+
+result = add(10, 20)
+print(result)   # 30
+Types of Functions
+1. Built-in Functions
+
+Already available in Python
+
+print("Hello")
+len([1, 2, 3])
+type(10)
+2. User-defined Functions
+
+Created by the user
+
+def greet(name):
+    print("Hello", name)
+3. Lambda (Anonymous Function)
+
+Small one-line function
+
+add = lambda a, b: a + b
+print(add(5, 3))
+Types Based on Arguments & Return
+Type	Example
+No arguments, no return	def fun():
+With arguments, no return	def fun(a):
+No arguments, with return	def fun(): return 10
+With arguments & return	def fun(a,b): return a+b
+Function with Default Parameters
+def greet(name="Guest"):
+    print("Hello", name)
+
+greet()        # Hello Guest
+greet("John")  # Hello John
+Keyword Arguments
+def student(name, age):
+    print(name, age)
+
+student(age=25, name="Sam")
+Variable Length Arguments
+*args (multiple values)
+def total(*numbers):
+    return sum(numbers)
+
+print(total(1,2,3,4))
+**kwargs (key-value)
+def info(**data):
+    print(data)
+
+info(name="John", age=25)
+Return Statement
+
+Sends result back to caller
+
+1. Class
+Definition:
+
+A class is a blueprint/template to create objects.
+
+Example:
+class Student:
+    def greet(self):
+        print("Hello")
+Use:
+Define structure (variables + methods)
+Reuse code
+2. Object
+Definition:
+
+An object is an instance of a class.
+
+Example:
+s1 = Student()
+s1.greet()
+Use:
+Access class data & methods
+Represent real-world entities
+3. Constructor (__init__)
+Definition:
+
+A constructor is a special method that runs automatically when object is created.
+
+Example:
+class Student:
+    def __init__(self, name):
+        self.name = name
+
+s1 = Student("John")
+Use:
+Initialize object data
+Set default values
+4. super()
+Definition:
+
+super() is used to call parent class methods/constructor.
+
+Example:
+class Parent:
+    def __init__(self):
+        print("Parent constructor")
+
+class Child(Parent):
+    def __init__(self):
+        super().__init__()
+        print("Child constructor")
+Use:
+Avoid duplicate code
+Access parent functionality
+5. Inheritance
+Definition:
+
+Inheritance allows one class to reuse properties of another class.
+
+Example:
+class Animal:
+    def sound(self):
+        print("Some sound")
+
+class Dog(Animal):
+    pass
+
+d = Dog()
+d.sound()
+Use:
+Code reusability
+Hierarchical structure
+6. Polymorphism
+Definition:
+
+Polymorphism means same method name behaves differently.
+
+Example:
+class Dog:
+    def sound(self):
+        print("Bark")
+
+class Cat:
+    def sound(self):
+        print("Meow")
+
+for animal in [Dog(), Cat()]:
+    animal.sound()
+Use:
+Flexible code
+Same interface, different behavior
+7. Method Overloading (Python Style)
+Definition:
+
+Same method name with different parameters (Python handles using default args).
+
+Example:
+def add(a, b=0, c=0):
+    return a + b + c
+
+print(add(2))
+print(add(2,3))
+print(add(2,3,4))
+Use:
+Handle multiple input scenarios
+8. Method Overriding
+Definition:
+
+Child class redefines parent method.
+
+Example:
+class Parent:
+    def show(self):
+        print("Parent")
+
+class Child(Parent):
+    def show(self):
+        print("Child")
+
+c = Child()
+c.show()
+Use:
+Customize behavior in child class
+9. Abstraction
+Definition:
+
+Hiding implementation details and showing only essential features.
+
+Example:
+from abc import ABC, abstractmethod
+
+class Vehicle(ABC):
+    @abstractmethod
+    def start(self):
+        pass
+
+class Car(Vehicle):
+    def start(self):
+        print("Car starts with key")
+Use:
+Enforce rules (must implement methods)
+Cleaner design
+Final Quick Table (Interview Gold)
+Concept	Meaning	Use
+Class	Blueprint	Structure
+Object	Instance	Access data
+Constructor	Auto-init method	Initialize
+super()	Call parent	Reuse code
+Inheritance	Parent → Child	Reusability
+Polymorphism	Same method, diff behavior	Flexibility
+Overloading	Same method, diff inputs	Convenience
+Overriding	Change parent method	Custom logic
+Abstraction	Hide details	Clean design
+
+
+What is NumPy?
+
+NumPy (Numerical Python) is a powerful Python library used for fast numerical computations and working with arrays.
+
+It is the foundation for data science, machine learning, and scientific computing in Python.
+
+Why NumPy is Needed?
+
+Python lists are:
+
+Slower
+Not optimized for math
+
+NumPy provides:
+
+Fast computation
+Memory efficiencyVectorized operationsCore Concept: ndarray (Array)
+6
+Definition:
+
+An ndarray is a multidimensional array of elements of the same type.
+
+Example
+import numpy as np
+
+arr = np.array([1, 2, 3, 4])
+print(arr)
+Types of Arrays
+# 1D
+a = np.array([1,2,3])
+
+# 2D
+b = np.array([[1,2],[3,4]])
+
+# 3D
+c = np.array([[[1,2],[3,4]]])
+Key Features
+1. Fast Performance
+
+Uses C backend → very fast
+
+2. Homogeneous Data
+
+All elements same type
+
+3. Vectorization
+
+No need for loops
+
+arr = np.array([1,2,3])
+print(arr * 2)   # [2 4 6]
+Important Functions
+np.zeros((2,2))     # matrix of zeros
+np.ones((3,3))      # matrix of ones
+np.arange(1,10)     # range
+np.linspace(0,1,5)  # equal intervals
+Indexing & Slicing
+arr = np.array([10,20,30,40])
+
+print(arr[1])     # 20
+print(arr[1:3])   # [20 30]
+Mathematical Operations
+a = np.array([1,2,3])
+b = np.array([4,5,6])
+
+print(a + b)   # [5 7 9]
+print(a * b)   # [4 10 18]
+Shape & Reshape
+arr = np.array([[1,2,3],[4,5,6]])
+
+print(arr.shape)     # (2,3)
+print(arr.reshape(3,2))
+Why NumPy is Important (Uses)
+1. Data Science
+
+Base for Pandas
+
+2. Machine Learning
+
+Used in TensorFlow, Scikit-learn
+
+3. Image Processing
+
+Represent images as arrays
+
+4. Scientific Computing
+
+Matrix operations, linear algebra
+
+NumPy vs Python List
+Feature	Python List 	NumPy Array
+Speed	Slow	Fast
+Data Type	Mixed	Same type
+Memory	More	Less
+Math Ops	Limited	Powerful
+
+
+
+
+What is Vectorization?
+
+Vectorization means performing operations on entire arrays at once
+without using loops (for/while)
+
+Simple Idea
+
+Instead of processing one element at a time,
+you process all elements together
+
+Without Vectorization (Slow )
+arr = [1, 2, 3, 4]
+
+result = []
+for x in arr:
+    result.append(x * 2)
+
+print(result)
+
+Uses loop → slower
+
+With Vectorization (Fast)
+import numpy as np
+
+arr = np.array([1, 2, 3, 4])
+result = arr * 2
+
+print(result)
+
+No loop → much faster
+
+Visual Understanding
+Why Vectorization is Important
+1. High Performance
+Uses optimized C-level implementation
+Much faster than Python loops
+2. Cleaner Code
+Less code, more readable
+3. Efficient Memory Usage
+Avoids intermediate objects
+More Examples
+Addition
+a = np.array([1,2,3])
+b = np.array([4,5,6])
+
+print(a + b)   # [5 7 9]
+Square
+arr = np.array([1,2,3])
+print(arr ** 2)   # [1 4 9]
+Conditional (Vectorized)
+arr = np.array([10, 20, 30, 40])
+print(arr[arr > 20])   # [30 40]
+Vectorization vs Loop
+Feature	Loop 	Vectorization
+Speed	Slow	Fast
+Code	More lines	Less lines
+Performance	Low	High
+Readability	Medium	High
+Real-Time Use Cases
+Data transformation (ETL pipelines)
+Machine Learning preprocessing
+Financial calculations
+Image processing (pixel operations)
+Interview One-Line Answer
+
+Vectorization is performing operations on entire arrays without using loops, making code faster and efficient.
+
+
+What is Pandas?
+
+Pandas is a powerful Python library used for data analysis, data manipulation, and data cleaning.
+
+It helps you work with structured data (tables like Excel / SQL) easily.
+
+Why Pandas is Used?
+Handle large datasets 
+Clean messy data 
+Perform analysis 
+Read/write files (CSV, Excel, SQL) 
+Core Data Structures
+1. Series (1D Data)
+5
+Definition:
+
+A Series is a one-dimensional labeled array.
+
+import pandas as pd
+
+s = pd.Series([10, 20, 30])
+print(s)
+2. DataFrame (2D Table)
+5
+Definition:
+
+A DataFrame is a 2D table (rows & columns) like Excel.
+
+data = {
+    "name": ["John", "Sam"],
+    "age": [25, 30]
+}
+
+df = pd.DataFrame(data)
+print(df)
+Key Features
+1. Data Cleaning
+Handle missing values
+df.dropna()
+df.fillna(0)
+2. Data Selection
+df["name"]        # column
+df.iloc[0]        # row
+3. Filtering
+df[df["age"] > 25]
+4. GroupBy (Very Important)
+df.groupby("name").sum()
+5. Reading Files
+pd.read_csv("file.csv")
+pd.read_excel("file.xlsx")
+Common Operations
+df.head()       # first rows
+df.tail()       # last rows
+df.describe()   # statistics
+df.shape        # rows, columns
+Why Pandas is Important
+1. Data Analysis
+
+Used by data analysts & scientists
+
+2. ETL Pipelines
+
+Extract → Transform → Load
+
+3. Machine Learning
+
+Preprocessing data
+
+4. SQL-like Operations
+
+Filtering, joins, grouping
+
+Pandas vs NumPy
+Feature	NumPy 	Pandas 
+Data Type	Arrays	Tables (DataFrame)
+Use Case	Math ops	Data analysis
+Structure	Homogeneous	Heterogeneous
+Quick Summary
+Pandas = Data analysis library
+Series = 1D data
+DataFrame = 2D table
+Used for cleaning, filtering, analyzing data
+Interview One-Line Answer
+
+Pandas is a Python library used for data manipulation and analysis using Series and DataFrames.
+
+If you want next level 
+
+
+What is a Named Tuple?
+
+A named tuple is a special type of tuple where each element has a name (field).
+
+It is like a tuple + object (with attributes)
+
+Simple Idea
+
+Normal tuple:
+
+person = ("John", 25)
+
+Access using index → confusing
+
+person[0]
+
+Named tuple:
+
+person.name
+
+Easy to read and understand
+
+How to Create Named Tuple
+from collections import namedtuple
+
+Person = namedtuple("Person", ["name", "age"])
+
+p1 = Person("John", 25)
+
+print(p1.name)   # John
+print(p1.age)    # 25
+Key Features
+1. Named Fields
+
+Access using names instead of index
+
+2. Immutable
+
+Like tuple → cannot modify values
+
+# p1.name = "Sam" Error
+3. Lightweight
+
+Faster than class
+
+Access Methods
+print(p1[0])        # Index access
+print(p1.name)      # Name access
+Useful Methods
+p1._asdict()     # Convert to dictionary
+p1._replace(age=30)  # Create new object with updated value
+Example (Real-Time)
+Employee = namedtuple("Employee", ["id", "name", "salary"])
+
+emp1 = Employee(101, "John", 50000)
+
+print(emp1.name)
+Why Use Named Tuple?
+Readability
+
+emp.name is better than emp[1]
+
+Immutability
+
+Data is safe (no accidental changes)
+
+Performance
+
+Uses less memory than class
+
+Named Tuple vs Tuple vs Class
+Feature	Tuple	Named Tuple	Class
+Named fields		✅	✅
+Mutable			✅
+Memory	Low	Low	High
+Readability	Low	High	High
+Interview One-Line Answer
+
+Named tuple is an immutable data structure where elements can be accessed using names instead of indexes.
+
+🚀 When to Use
+Returning multiple values from function
+Lightweight data models
+Read-only records (like DB rows)
+
+Here’s a clear + interview-ready explanation of Counter in Python 
+
+What is Counter?
+
+A Counter is a class from the built-in collections module used to count the frequency of elements.
+
+It works like a dictionary (key → count)
+
+Import Counter
+from collections import Counter
+Basic Example
+from collections import Counter
+
+data = [1, 2, 2, 3, 3, 3]
+
+c = Counter(data)
+print(c)
+
+Output:
+
+Counter({3: 3, 2: 2, 1: 1})
+Simple Idea
+
+Counter = Automatic frequency counter
+
+Instead of writing:
+
+freq = {}
+for i in data:
+    freq[i] = freq.get(i, 0) + 1
+
+Use:
+
+Counter(data)
+With Strings
+c = Counter("python")
+print(c)
+
+Output:
+
+{'p':1, 'y':1, 't':1, 'h':1, 'o':1, 'n':1}
+Important Methods
+1. most_common()
+c = Counter([1,1,2,2,2,3])
+print(c.most_common(2))
+
+Output:
+
+[(2, 3), (1, 2)]
+2. elements()
+c = Counter([1,2,2,3])
+print(list(c.elements()))
+
+Output:
+
+[1, 2, 2, 3]
+3. Update Counter
+c = Counter([1,2])
+c.update([2,3])
+print(c)
+
+Output:
+
+{2:2, 1:1, 3:1}
+4. Subtract
+c1 = Counter([1,2,2])
+c2 = Counter([2])
+
+c1.subtract(c2)
+print(c1)
+
+Output:
+
+{2:1, 1:1}
+Access Values
+c = Counter([1,2,2,3])
+
+print(c[2])   # 2
+print(c[5])   # 0 (no error)
+Why Use Counter?
+1. Frequency Counting
+
+Count duplicates easily
+
+2. Cleaner Code
+
+No manual dictionary logic
+
+3. Fast & Efficient
+
+Optimized implementation
+
+Real-Time Use Cases
+Word count in text processing
+Log analysis
+Finding most frequent items
+Data preprocessing (ML)
+Interview One-Line Answer
+
+Counter is a dictionary subclass used to count frequency of elements in a collection.
+
+Quick Comparison
+Feature	Dictionary 	Counter
+Counting	Manual	Automatic
+Default value	Error	0
+Built-in methods	No	Yes
+
+
+What is an Array in Python?
+
+An array is a collection of elements stored in a single variable, where all elements are usually of the same data type and stored in continuous memory.
+
+Simple Meaning
+
+Array = multiple values in one place
+
+Example:
+
+10, 20, 30, 40
+
+Instead of:
+
+a = 10
+b = 20
+c = 30
+
+We use:
+
+[10, 20, 30, 40]
+Arrays in Python (Important Point)
+
+Python has 3 ways to use arrays:
+
+1. List (Most Common Array-like structure)arr = [1, 2, 3, 4]
+print(arr)
+✔ Features:
+Can store different data types
+Flexible (grow/shrink)
+Most used as "array" in Python
+2. array module (Strict typed array)
+import array
+
+arr = array.array('i', [1, 2, 3, 4])
+print(arr)
+✔ Features:
+Only one data type (like int only)
+More memory efficient than list
+3. NumPy Array (Advanced array)
+import numpy as np
+
+arr = np.array([1, 2, 3, 4])
+print(arr)
+✔ Features:
+Fast numerical operations
+Used in Data Science / ML
+Supports multi-dimensional arrays
+Types of Arrays
+1. 1D Array
+[1, 2, 3]
+2. 2D Array (Matrix)
+[[1, 2],
+ [3, 4]]
+3. 3D Array
+[[[1,2],[3,4]]]
+Key Features of Array
+
+✔ Stores multiple values
+✔ Indexed (starts from 0)
+✔ Can be iterated
+✔ Efficient data storage
+
+Example (Access Elements)
+arr = [10, 20, 30, 40]
+
+print(arr[0])   # 10
+print(arr[2])   # 30
+Operations on Array
+arr = [1, 2, 3]
+
+arr.append(4)     # add
+arr.remove(2)     # delete
+print(arr)
+Array vs List in Python
+Feature	Array (NumPy) ⚡	List 📋
+Speed	Fast	Slow
+Data type	Same type	Mixed
+Usage	Data science	General
+Memory	Efficient	More
+Real-Time Use Cases
+
+✔ Data analysis (Pandas/NumPy)
+✔ Machine learning
+✔ Image processing
+✔ Storing large datasets
+
+Interview One-Line Answer
+
+An array in Python is a data structure used to store multiple values in a single variable, usually of the same type, and accessed using index positions.
+
+
+What is Ordered Dictionary in Python?
+
+An Ordered Dictionary (OrderedDict) is a special dictionary from Python’s collections module that remembers the order in which keys are inserted.
+
+Simple Meaning
+
+Normal dictionary: keeps data as key-value pairs
+OrderedDict: keeps key-value pairs + insertion order guaranteed
+
+Import OrderedDict
+from collections import OrderedDict
+Basic Example
+from collections import OrderedDict
+
+od = OrderedDict()
+
+od["a"] = 1
+od["b"] = 2
+od["c"] = 3
+
+print(od)
+
+Output:
+
+OrderedDict([('a', 1), ('b', 2), ('c', 3)])
+Key Feature
+Maintains insertion order
+od = OrderedDict()
+od["x"] = 10
+od["y"] = 20
+od["z"] = 30
+
+Always stays:
+
+x → y → z
+What happens in normal dict?
+
+(Python 3.7+ also preserves order, but OrderedDict has extra features)
+
+d = {"a":1, "b":2, "c":3}
+Important Methods in OrderedDict
+1. move_to_end()
+
+Move a key to end or beginning
+
+od = OrderedDict(a=1, b=2, c=3)
+
+od.move_to_end("a")
+print(od)
+
+Output:
+
+b → c → a
+2. popitem()
+od.popitem(last=True)  # removes last item
+Comparison
+Feature	dict	OrderedDict
+Order kept	Yes (3.7+)	Yes
+Extra methods	No	Yes
+Reordering	No	Yes
+Use today	Mostly yes	Rare (legacy + special cases)
+Why OrderedDict was important?
+
+Before Python 3.7:
+
+Normal dict did NOT maintain order
+OrderedDict was required
+
+Now:
+
+dict keeps order automatically
+OrderedDict used for advanced operations
+Real-Time Use Cases
+
+✔ LRU Cache implementation
+✔ Maintaining sequence-sensitive data
+✔ Processing logs in order
+✔ Data pipeline ordering logic
+
+Interview One-Line Answer
+
+OrderedDict is a dictionary subclass that preserves the order of key insertion and provides extra methods for reordering elements.
+
+🚀 Quick Summary
+Stores key-value pairs
+Maintains insertion order
+Has extra methods like move_to_end()
+Mostly used in advanced scenarios
+
+1. What is Python?
+
+Python is a high-level, interpreted programming language used for:
+
+Web development
+Data science
+Automation
+AI/ML
+2. What are Python features?
+Easy to learn
+Interpreted
+Dynamically typed
+Object-oriented
+Large standard library
+3. What is dynamic typing?
+
+Data type is decided at runtime, not compile time.
+
+x = 10
+x = "hello"
+4. What is mutable and immutable?
+
+Mutable = can change
+Immutable = cannot change
+
+Mutable	Immutable
+list	tuple
+dict	int
+set	string
+5. What is slicing in Python?
+
+Extract part of sequence
+
+a = [1,2,3,4,5]
+print(a[1:4])   # [2,3,4]
+6. What is indentation in Python?
+
+Python uses indentation instead of braces
+
+if True:
+    print("Hello")
+7. What are Python data types?
+int
+float
+string
+list
+tuple
+set
+dict
+8. What is type conversion?
+
+Convert one type to another
+
+int("10")
+float(5)
+str(100)
+9. What is pass statement?
+
+Empty placeholder
+
+def test():
+    pass
+10. What is *args and **kwargs?
+
+*args → multiple values
+**kwargs → key-value pairs
+
+def fun(*args):
+    print(args)
+def fun(**kwargs):
+    print(kwargs)
+11. What is lambda function?
+
+One-line anonymous function
+
+add = lambda a, b: a + b
+print(add(2,3))
+12. What is map, filter, reduce?
+map()
+list(map(lambda x: x*2, [1,2,3]))
+filter()
+list(filter(lambda x: x>2, [1,2,3,4]))
+13. What is deep copy vs shallow copy?
+
+Shallow copy = reference shared
+Deep copy = independent copy
+
+import copy
+a = [[1,2],[3,4]]
+b = copy.deepcopy(a)
+14. What is iterator?
+
+Object that can be iterated using next()
+
+15. What is generator?
+
+Function that uses yield
+
+def gen():
+    yield 1
+    yield 2
+16. What is Python memory management?
+
+Python uses:
+
+Private heap memory
+Garbage collection
+17. What is garbage collection?
+
+Automatically removes unused objects
+
+18. What is PEP 8?
+
+Python coding style guide (best practices)
+
+19. What is module vs package?
+Module	Package
+single .py file	collection of modules
+20. What is exception?
+
+Runtime error that interrupts execution

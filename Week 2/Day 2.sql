@@ -1,0 +1,159 @@
+-- CONSTRAINTS
+
+-- USE training_db;
+-- CREATE TABLE EMP (
+--     EMP_ID INT PRIMARY KEY,
+--     EMP_NAME VARCHAR(50) NOT NULL,
+--     EMAIL VARCHAR(100) UNIQUE,
+--     SALARY DECIMAL(10,2) CHECK (SALARY > 0),
+--     DEPT VARCHAR(30),
+--     JOIN_DATE DATE NOT NULL
+-- );
+
+-- INSERT INTO EMP
+-- VALUES
+-- (101, 'Ram', 'ram@gmail.com', 50000, 'IT', '2024-01-15'),
+-- (102, 'Shyam', NULL, 45000, 'HR', '2024-02-10'),
+-- (103, 'Sita', 'sita@gmail.com', 60000, NULL, '2024-03-05'),
+-- (104, 'Geeta', NULL, 55000, NULL, '2024-04-20');
+
+-- DESC EMP;
+-- ALTER TABLE EMP MODIFY SALARY DECIMAL(10,2) NOT NULL CHECK (SALARY>0);
+
+-- select * FROM EMP;
+
+-- DROP TABLE BRAND;
+-- COLUMN LEVEL CONSTRAINTS
+-- CREATE TABLE BRAND (
+--     BRAND_ID INT PRIMARY KEY AUTO_INCREMENT,
+--     BRAND_NAME VARCHAR(50) NOT NULL,
+--     COLOUR VARCHAR(30),
+--     SIZE CHAR(5),
+--     PRICE DECIMAL(8,2) CHECK (PRICE > 0),
+--     UNIQUE (BRAND_NAME, COLOUR, SIZE)
+-- );
+
+
+-- INSERT INTO BRAND (BRAND_NAME, COLOUR, SIZE, PRICE)
+-- VALUES
+-- ('Nike', 'Black', 'M', 1999.99),
+-- ('Adidas', 'White', 'L', 2499.50),
+-- ('Puma', 'Blue', 'S', 1799.00),
+-- ('Levis', NULL, 'XL', 2999.00),
+-- ('Zara', 'Red', NULL, 3499.00),
+-- ('H&M', NULL, NULL, 1499.00);
+
+
+-- DROP TABLE BRAND1;
+-- TABLE LEVEL CONSTARINTS
+-- CREATE TABLE BRAND1 (
+--     BRAND_ID INT PRIMARY KEY AUTO_INCREMENT,
+--     BRAND_NAME VARCHAR(50) NOT NULL,
+--     COLOUR VARCHAR(30) UNIQUE,
+--     SIZE CHAR(5) UNIQUE,
+--     PRICE DECIMAL(8,2) CHECK (PRICE > 0)
+-- );
+
+-- INSERT INTO BRAND1 (BRAND_NAME, COLOUR, SIZE, PRICE)
+-- VALUES
+-- ('Nike', 'Black', 'M', 1999.99),
+-- ('Adidas', 'White', 'L', 2499.50),
+-- ('Puma', 'Blue', 'S', 1799.00),
+-- ('Levis', NULL, 'XL', 2999.00),
+-- ('Zara', 'Red', NULL, 3499.00),
+-- ('H&M', NULL, NULL, 1499.00);
+
+
+-- ALTER TABLE BRAND1 ADD CONSTRAINT BRAND_NAME_UK UNIQUE(BRAND_NAME);
+-- DESC BRAND1;
+
+
+-- CREATE TABLE STUDENT_DTL(
+--     ID INT PRIMARY KEY,
+--     FIRST_NAME VARCHAR(30),
+--     LAST_NAME VARCHAR(30)
+-- );
+
+-- INSERT INTO STUDENT_DTL
+-- VALUES
+-- (1, 'Ram', 'Kumar'),
+-- (2, 'Shyam', 'Sharma'),
+-- (3, 'Sita', 'Devi'),
+-- (4, 'Geeta', 'Patel');
+
+
+
+-- CREATE TABLE STUDENT1_DTL1(
+-- 	ID INT UNIQUE AUTO_INCREMENT,
+--     FIRST_NAME VARCHAR(30),
+--     LAST_NAME VARCHAR(30),
+--     primary key(FIRST_NAME,LAST_NAME));
+--     
+--     DESC STUDENT1_DTL1;
+--     
+--     CREATE TABLE STUDENT_DTL2(
+-- 	ID INT UNIQUE AUTO_INCREMENT,
+--     FIRST_NAME VARCHAR(30) PRIMARY KEY,
+--     LAST_NAME VARCHAR(30) UNIQUE NOT NULL);  -- ACTS SIMILER TO PRIMARY KEY
+--     
+--     
+--     DESC STUDENT_DTL2;
+--     
+--    
+--    
+--    DROP TABLE USERS;
+--     CREATE TABLE USERS(
+-- 	ID INT UNIQUE AUTO_INCREMENT,
+--     FIRST_NAME VARCHAR(30) PRIMARY KEY,
+--     LAST_NAME VARCHAR(30) UNIQUE NOT NULL,
+--     AGE INT,
+--     CONSTRAINT `users_chk_1` CHECK(AGE>=18 AND LENGTH(FIRST_NAME)>5)
+--     );
+--     
+-- INSERT INTO USERS (FIRST_NAME, LAST_NAME, AGE)
+-- VALUES
+-- ('Gururaj', 'Kumar', 23),
+-- ('Praveen', 'Sharma', 25),
+-- ('Sanjana', 'Devi', 20),
+-- ('Karthik', 'Patel', 28),
+-- ('Manojkumar', 'Verma', 30);
+
+
+-- SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE
+-- FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+-- WHERE TABLE_SCHEMA = 'training_db'
+--   AND TABLE_NAME = 'USERS';
+--   
+-- ALTER TABLE USERS
+-- DROP CHECK users_chk_1
+
+
+-- CREATE TABLE DEPT(
+--     DEPTNO INT PRIMARY KEY,
+--     DNAME VARCHAR(30)
+-- );
+
+-- INSERT INTO DEPT
+-- VALUES
+-- (10, 'ACCOUNTING'),
+-- (20, 'RESEARCH'),
+-- (30, 'SALES'),
+-- (40, 'OPERATIONS');
+
+
+
+-- DROP TABLE STUDENTS;
+
+-- CREATE TABLE STUDENTS(ID INT,
+-- NAME VARCHAR(30),DEPTNO INT,
+-- FOREIGN KEY(DEPTNO) REFERENCES DEPT(DEPTNO));
+
+-- INSERT INTO STUDENTS
+-- VALUES
+-- (1, 'Ram', 10),
+-- (2, 'Shyam', 20),
+-- (3, 'Sita', 30),
+-- (4, 'Geeta', 10);
+
+
+SELECT * FROM STUDENTS;

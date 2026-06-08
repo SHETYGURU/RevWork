@@ -1,0 +1,7 @@
+what is big data.
+characteristics of big data.(3v's)
+catogories of big data.
+hadoop
+haddop ecosystem.
+types of nodes in haddop.
+rack awraeness.
