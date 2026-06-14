@@ -673,7 +673,7 @@ Uses less memory than class
 Named Tuple vs Tuple vs Class
 Feature	Tuple	Named Tuple	Class
 Named fields		✅	✅
-Mutable			✅
+Mutable			    ✅
 Memory	Low	Low	High
 Readability	Low	High	High
 Interview One-Line Answer

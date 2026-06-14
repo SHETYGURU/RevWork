@@ -1,0 +1,7 @@
+Bigquery
+types of table
+
+table partiton
+types of partitioning
+
+bigquery clustering

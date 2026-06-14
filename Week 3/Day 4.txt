@@ -1,0 +1,43 @@
+Dimensional Modeling
+dimension table and its characteristics
+fact table
+schema and types (snowflake,star,fact constolation/galaxy/multi-fact  schema)
+
+dimensn->fact table(one->many)
+regular dimension
+confirm / common dimension[used by more than 1 fact table]
+junk dimension -abstract dimension used to combine small dimesion to large dimension
+role playing dimension -single physical dimension paly multiple roles with views
+
+types of fact table
+regular fact table
+factless fact table -  FACT TABLE without numerical measures
+
+surrogate key- unique seqential number used to replace oltp primary and foriegn keys(alternativekey for oltp keys)
+numerical join are much faster than alphanumeric join.
+alphanumeric keys occupy more space than numerical keys in fact table
+we use surrogate key to maintain history in dimension table.
+
+
+slowly changing dimension(scd) -technique used to tarck changes in dimension coloumn
+
+3 techniques
+scd1- if any Dimensional attributs change update old value with new value(done if we dont need history)
+scd2- insert new record with new changes with new surrogate key
+scd3- add new column to dimension table
+
+
+types of facts (3)[-numerical measures]
+additive - can be used across all dimension
+semi additive - can be used only on few dimension
+non additive    - cant be used in any dimension
+
+types of olap
+rolap -  relational online analytical processing database [data stored in relational db using star ,snowflake,gal...]
+        [supports/stores huge amount of data][query performance is slow]
+
+molap -  multi-dimensional ---- [data will be stored in multi dimensional cubes using multi dimensional arrys]
+        [uses indexing to fetch data][ex:-essbase,cognos transformer,ssas][faster than rolap][cant store huge amount of data]
+
+holap -  hybrid ----    [combination of rolap and molap][storing in rolap -> fetching/analysis using molap by making cubes ]
+

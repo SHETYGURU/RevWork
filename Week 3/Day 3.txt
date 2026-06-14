@@ -1,0 +1,9 @@
+Cloud computing.
+s3,ec2,lambda ,ebs,vpc etc.
+datalake,*datawarehouse
+oltp
+olap
+etl tools
+ods
+dirty data--->data cleaning
+who proposed top-down ,bottom-up approach
