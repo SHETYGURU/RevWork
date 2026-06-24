@@ -1,0 +1,70 @@
+table population-2010-2019
+	lineageTag: 0d20a5ab-c573-468e-b70d-bdd58e3bd047
+
+	column CountryId
+		dataType: string
+		lineageTag: 8fbcbe2c-334a-4187-a5f2-644ea5c7692d
+		summarizeBy: none
+		sourceColumn: CountryId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: bffa7bb0-6ebf-4e72-81ab-acc826055a1d
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: string
+		lineageTag: 14613429-65ac-4829-b6f6-a11fc02f12d3
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeGroup
+		dataType: string
+		lineageTag: 0815737a-39eb-46dd-8d1c-3df8e0a1506f
+		summarizeBy: none
+		sourceColumn: AgeGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column Population-Male
+		dataType: string
+		lineageTag: 0b2cb8e5-79e5-44e1-8ada-644e4ee3b058
+		summarizeBy: none
+		sourceColumn: Population-Male
+
+		annotation SummarizationSetBy = Automatic
+
+	column Population-Female
+		dataType: string
+		lineageTag: 51697264-6e57-432e-8939-3f894960f413
+		summarizeBy: none
+		sourceColumn: Population-Female
+
+		annotation SummarizationSetBy = Automatic
+
+	partition population-2010-2019 = m
+		mode: import
+		queryGroup: source
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\user\Downloads\source-files\population-2010-2019.csv"), [Delimiter = ",", Columns = 9, Encoding = 65001]),
+				    #"Removed Top Rows" = Table.Skip(Source,1),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Removed Top Rows", [PromoteAllScalars=true]),
+				    #"Filtered Rows" = Table.SelectRows(#"Promoted Headers", each ([Time] = "2010")),
+				    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows",{{"LocID", "CountryId"}, {"Location", "Country"}, {"Time", "Year"}, {"AgeGrp", "AgeGroup"}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns",{"AgeGrpStart", "AgeGrpSpan", "PopTotal"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns",{{"PopMale", "Population-Male"}, {"PopFemale", "Population-Female"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

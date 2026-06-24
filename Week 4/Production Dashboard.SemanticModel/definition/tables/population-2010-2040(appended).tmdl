@@ -1,0 +1,102 @@
+table population-2010-2040(appended)
+	lineageTag: 623711f4-a937-422d-82ee-4502cfe80910
+
+	column Country
+		dataType: string
+		lineageTag: 7016f858-4e69-47a4-a10c-3b770b76e35a
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountryId
+		dataType: int64
+		formatString: 0
+		lineageTag: aa977ff9-fab9-4ad4-95b4-390d05075d47
+		summarizeBy: count
+		sourceColumn: CountryId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: d3fabb4f-da71-4a7e-a4ce-81ee90d4d93a
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Age
+		dataType: string
+		lineageTag: 51907e0a-cc31-483a-999a-fa7ab260f8f1
+		summarizeBy: none
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeMin
+		dataType: int64
+		formatString: 0
+		lineageTag: 34c44fb6-f81b-41b8-ab44-c85ce57118a8
+		summarizeBy: sum
+		sourceColumn: AgeMin
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeMax
+		dataType: int64
+		formatString: 0
+		lineageTag: c6c9214e-a86f-40e7-bf9f-596c32f40dc3
+		summarizeBy: sum
+		sourceColumn: AgeMax
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: d5e2bd5d-37d9-4a90-aa9d-6d7c7be62698
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column Population
+		dataType: int64
+		formatString: 0
+		lineageTag: 4dfcfd25-10cf-4d62-9bc9-3329b6770d28
+		summarizeBy: sum
+		sourceColumn: Population
+
+		annotation SummarizationSetBy = Automatic
+
+	partition population-2010-2040(appended) = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({#"population-2010-2019", #"population-2020-2029", #"population-2030-2040"}),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"05. Sep","5-9",Replacer.ReplaceText,{"AgeGroup"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","Okt 14","10-14",Replacer.ReplaceText,{"AgeGroup"}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Replaced Value1", "AgeGroup", "AgeGroup - Copy"),
+				    #"Extracted Text After Delimiter" = Table.TransformColumns(#"Duplicated Column", {{"AgeGroup - Copy", each Text.AfterDelimiter(_, "-"), type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Extracted Text After Delimiter",{{"AgeGroup", "AgeMin"}, {"AgeGroup - Copy", "AgeMax"}}),
+				    #"Inserted Text Before Delimiter" = Table.AddColumn(#"Renamed Columns", "Text Before Delimiter", each Text.BeforeDelimiter([AgeMin], "-"), type text),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Inserted Text Before Delimiter",{{"AgeMin", "Age"}, {"Text Before Delimiter", "AgeMin"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns1",{{"AgeMin", Int64.Type}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type1",{"CountryId", "Country", "Year", "AgeMin", "AgeMax", "Population-Male", "Population-Female"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Reordered Columns",{{"CountryId", Int64.Type}, {"Country", type text}, {"Year", Int64.Type}, {"Age", type text}, {"AgeMax", Int64.Type}, {"Population-Male", type number}, {"Population-Female", type number}}),
+				    #"Multiplied Column" = Table.TransformColumns(#"Changed Type", {{"Population-Male", each _ * 1000, type number}}),
+				    #"Multiplied Column1" = Table.TransformColumns(#"Multiplied Column", {{"Population-Female", each _ * 1000, type number}}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Multiplied Column1",{{"Population-Male", Int64.Type}, {"Population-Female", Int64.Type}}),
+				    #"Unpivoted Columns" = Table.UnpivotOtherColumns(#"Changed Type2", {"CountryId", "Country", "Year", "Age", "AgeMin", "AgeMax"}, "Attribute", "Value"),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Unpivoted Columns",{{"Attribute", "Gender"}, {"Value", "Population"}}),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Renamed Columns2", "Gender", Splitter.SplitTextByDelimiter("-", QuoteStyle.Csv), {"Gender.1", "Gender.2"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Split Column by Delimiter",{"Gender.1"}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Removed Columns",{{"Gender.2", "Gender"}, {"Country", "Country"}})
+				in
+				    #"Renamed Columns3"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

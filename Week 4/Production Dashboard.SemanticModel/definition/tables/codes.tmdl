@@ -1,0 +1,49 @@
+table codes
+	lineageTag: 529a8a01-276e-458c-90ce-b3000af55e32
+
+	column RegionId
+		dataType: string
+		lineageTag: 8b9206d5-5b13-4630-9440-1307f00248f7
+		summarizeBy: none
+		sourceColumn: RegionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Country Code'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1fb74726-607f-4800-9342-f072e4b73f18
+		summarizeBy: count
+		sourceColumn: Country Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 4a4a18ff-f346-4f37-a574-93321db3a3da
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition codes = m
+		mode: import
+		queryGroup: source
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\user\Downloads\codes.txt"), [Delimiter = "#(tab)", Columns = 5, Encoding = 65001]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"CC", "#"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"#", "Country Code"}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Renamed Columns", {"CC"}, #"Region Codes", {"CC"}, "Region Codes", JoinKind.LeftOuter),
+				    #"Expanded Region Codes" = Table.ExpandTableColumn(#"Merged Queries", "Region Codes", {"Region"}, {"Region"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Region Codes",{{"Country Code", Int64.Type}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Changed Type",{{"CC", "RegionId"}}),
+				    #"Appended Query" = Table.Combine({#"Renamed Columns1", #"Extra Codes"})
+				in
+				    #"Appended Query"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

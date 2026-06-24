@@ -1,0 +1,32 @@
+table 'Region Codes'
+	lineageTag: 14378671-a50a-441a-8cc9-b1204041b692
+
+	column CC
+		dataType: string
+		lineageTag: 27a230a0-daef-4d61-909e-8d9dc49ecc84
+		summarizeBy: none
+		sourceColumn: CC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 4fa71f24-c3c0-4036-b446-3ff1d86c4fe5
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Region Codes' = m
+		mode: import
+		queryGroup: source
+		source =
+				let
+				  Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WcgxW0lFyLM5MVIrViVZyDQXyXEuL8gtSwXxHP5BsXkliUXJJZjJEjaMbSCytCMb3dwby/ZNTE/Oghvg5AgX88otKMhQcc1Ph6oJBwsH5pcjCsQA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [CC = _t, Region = _t])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,45 @@
+table Dim_Country(reference)
+	lineageTag: 6eda3001-dea8-4690-bbec-fcdd5f689aa8
+
+	column 'Country Code'
+		dataType: int64
+		formatString: 0
+		lineageTag: a8629060-1b5c-48b5-b9fc-495efc1dc3a7
+		summarizeBy: count
+		sourceColumn: Country Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 2182255e-dd66-433e-8e3e-b71974a3c84c
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 31269a03-da26-401d-adc3-1fb37ca73069
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Country(reference) = m
+		mode: import
+		source =
+				let
+				    Source = #"population-2010-2040(appended)",
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"CountryId", "Country"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Duplicates",{{"CountryId", "Country Code"}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Renamed Columns", {"Country Code"}, codes, {"Country Code"}, "codes", JoinKind.LeftOuter),
+				    #"Expanded codes" = Table.ExpandTableColumn(#"Merged Queries", "codes", {"Region"}, {"Region"})
+				in
+				    #"Expanded codes"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

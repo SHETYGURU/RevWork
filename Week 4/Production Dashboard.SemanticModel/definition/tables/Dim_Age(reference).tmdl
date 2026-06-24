@@ -1,0 +1,57 @@
+table Dim_Age(reference)
+	lineageTag: 5dfcb945-ac3d-4ace-853d-7eab6800def9
+
+	column Age
+		dataType: string
+		lineageTag: 1884956e-8628-4663-b177-c3095150c118
+		summarizeBy: none
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeMax
+		dataType: double
+		lineageTag: 35446a87-7e20-4c6e-b8f2-3a8547039035
+		summarizeBy: sum
+		sourceColumn: AgeMax
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Age Description'
+		dataType: string
+		lineageTag: 80699f19-ff44-4aa9-9df2-cb21778fd7dd
+		summarizeBy: none
+		sourceColumn: Age Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeId
+		dataType: int64
+		formatString: 0
+		lineageTag: a4f1c1a4-349d-4560-96b0-e67ab0e98730
+		summarizeBy: count
+		sourceColumn: AgeId
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Age(reference) = m
+		mode: import
+		source =
+				let
+				    Source = #"population-2010-2040(appended)",
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Age", "AgeMax"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns", {"Age"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Removed Duplicates",null,100,Replacer.ReplaceValue,{"AgeMax"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Replaced Value", "Custom", each if [AgeMax] <= 4 then "Child" else if [AgeMax] <= 14 then "Child" else if [AgeMax] <= 19 then "Tennager" else if [AgeMax] <= 24 then "Young Adults" else if [AgeMax] <= 34 then "Adults" else if [AgeMax] <= 59 then "Senior Adults" else "Senior"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Conditional Column",{{"Custom", "Age Description"}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Renamed Columns", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Added Index",{{"Index", "AgeId"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

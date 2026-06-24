@@ -1,0 +1,43 @@
+table 'Extra Codes'
+	lineageTag: 6fa5489b-02bc-476e-b00a-2c1638708fe5
+
+	column 'Country Code'
+		dataType: int64
+		formatString: 0
+		lineageTag: af4ddc5f-f68a-4a17-a638-615926f66560
+		summarizeBy: count
+		sourceColumn: Country Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegionId
+		dataType: string
+		lineageTag: 001a558a-5d7b-4eb2-8c5e-61e64b2d0581
+		summarizeBy: none
+		sourceColumn: RegionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 05ae537c-cb05-429d-bddc-85a59abdca11
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Extra Codes' = m
+		mode: import
+		queryGroup: source
+		source =
+				let
+				  Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WsjA2UNJRcg0FEaVF+QWpSrE60UqWRhZAAX9nEJGcmpiXmQgRNjXBJmxoYWyKXbk5NmFzI0ugiKMbiEgrykwGisYCAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [CountryId = _t, RegionId = _t, Region = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"CountryId", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"CountryId", "Country Code"}})
+				in
+				  #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

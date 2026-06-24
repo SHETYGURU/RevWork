@@ -1,0 +1,67 @@
+CREATE TABLE my_dataset.employees (
+    employee_id INT64,
+    employee_name STRING,
+    department STRING,
+    salary NUMERIC,
+    joining_date DATE
+);
+
+
+INSERT INTO my_dataset.employees
+(employee_id, employee_name, department, salary, joining_date)
+VALUES
+(101, 'John Smith', 'Engineering', 85000, '2024-01-15'),
+(102, 'Priya Kumar', 'HR', 65000, '2023-09-10'),
+(103, 'David Lee', 'Engineering', 92000, '2022-07-20'),
+(104, 'Anita Sharma', 'Finance', 78000, '2024-03-05'),
+(105, 'Michael Brown', 'Sales', 70000, '2023-11-01');
+
+SELECT *
+FROM my_dataset.employees;
+
+
+create external table `students-499007.student_dtl.students`
+options (
+  format = 'google_sheets',
+  uris = ['https://docs.google.com/spreadsheets/d/1bgYM7k_uoD09kglyJtZf0U8ar58y_sF86kLXxaLKjmk'],
+  skip_leading_rows = 1)
+
+
+create view student_dtl.students_view as
+select studentid,FirstName,LastName from `students-499007.student_dtl.students`
+
+create MATERIALIZED view student_dtl.employee_mv as
+select department, count(*) as no_of_employees from student_dtl.employees group by department;
+
+
+create materialized view `students-499007.student_dtl.students_mv` as
+select age, count(*) as No_Emp from student_dtl.student_back group by age;
+
+
+CREATE OR REPLACE TABLE `students-499007.student_dtl.students_partitioned`
+PARTITION BY DATE(created_at)
+AS
+SELECT *
+FROM `students-499007.student_dtl.student_back`;
+
+
+CREATE OR REPLACE TABLE `students-499007.student_dtl.students_partitioned`
+PARTITION BY TIMESTAMP_TRUNC(created_at, DAY)
+AS
+SELECT *
+FROM `students-499007.student_dtl.student_back`;
+
+
+CREATE OR REPLACE TABLE `students-499007.student_dtl.students_partitioned`
+PARTITION BY _PARTITIONDATE
+AS
+SELECT *
+FROM `students-499007.student_dtl.student_back`;
+
+
+CREATE OR REPLACE TABLE `students-499007.student_dtl.students_partitioned`
+PARTITION BY DATE(created_at)
+CLUSTER BY student_id
+AS
+SELECT *
+FROM `students-499007.student_dtl.student_back`;

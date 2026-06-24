@@ -1,0 +1,68 @@
+table population-2020-2029
+	lineageTag: acf99f5f-d1ee-4ea2-8757-ca5f11457e49
+
+	column CountryId
+		dataType: string
+		lineageTag: 46548e73-369a-42a3-869d-dba20159b490
+		summarizeBy: none
+		sourceColumn: CountryId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 399e7012-e7f3-4551-88f9-14e7ea53d1bc
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: string
+		lineageTag: de1e21ec-a376-4037-9cb8-b9e269febace
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeGroup
+		dataType: string
+		lineageTag: 13130336-3d6c-4dbc-9ce3-4a7a8950da3c
+		summarizeBy: none
+		sourceColumn: AgeGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column Population-Male
+		dataType: string
+		lineageTag: c3c00b1a-cbe7-44e4-ae02-ade843182dd0
+		summarizeBy: none
+		sourceColumn: Population-Male
+
+		annotation SummarizationSetBy = Automatic
+
+	column Population-Female
+		dataType: string
+		lineageTag: 0e526fa5-b870-4f01-8a1f-c6a9fbf204b4
+		summarizeBy: none
+		sourceColumn: Population-Female
+
+		annotation SummarizationSetBy = Automatic
+
+	partition population-2020-2029 = m
+		mode: import
+		queryGroup: source
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\user\Downloads\source-files\population-2020-2029.csv"), [Delimiter = ",", Columns = 9, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Filtered Rows" = Table.SelectRows(#"Promoted Headers", each ([LocID] <> "NO DATA")),
+				    #"Removed Columns" = Table.RemoveColumns(#"Filtered Rows",{"AgeGrpStart", "AgeGrpSpan", "PopTotal"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"LocID", "CountryId"}, {"Location", "Country"}, {"Time", "Year"}, {"AgeGrp", "AgeGroup"}, {"PopMale", "Population-Male"}, {"PopFemale", "Population-Female"}})
+				in
+				  #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

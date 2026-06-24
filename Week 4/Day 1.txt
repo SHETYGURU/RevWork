@@ -1,0 +1,6 @@
+
+power bi
+trill down analysis
+trill up analysis
+
+DAX-Data analytical Expression

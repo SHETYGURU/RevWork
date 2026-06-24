@@ -1,0 +1,33 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+/// source data of various years
+queryGroup source
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["population-2010-2019","population-2020-2029","population-2030-2040","population-2010-2040(appended)","Dim_Country(reference)","Population (Duplicate)","codes","Region Codes","Extra Codes","Dim_Gender(Duplicate)","Dim_Age(reference)"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table population-2010-2019
+ref table population-2020-2029
+ref table population-2030-2040
+ref table population-2010-2040(appended)
+ref table Dim_Country(reference)
+ref table 'Population (Duplicate)'
+ref table codes
+ref table 'Region Codes'
+ref table 'Extra Codes'
+ref table Dim_Gender(Duplicate)
+ref table Dim_Age(reference)
+
+ref cultureInfo en-US
+

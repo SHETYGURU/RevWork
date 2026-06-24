@@ -1,0 +1,69 @@
+table population-2030-2040
+	lineageTag: bdf9d834-5653-46f1-99f2-02b866ab25f3
+
+	column CountryId
+		dataType: string
+		lineageTag: 5480f4eb-6611-4bde-9227-377a1caacc7b
+		summarizeBy: none
+		sourceColumn: CountryId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: ece04d40-297a-4557-bf6a-a9e5fade53cd
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: string
+		lineageTag: 29d02698-17f0-4426-a7bd-ee54240fd74d
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeGroup
+		dataType: string
+		lineageTag: 7f20a780-daef-48c4-9980-6eb6432aa38b
+		summarizeBy: none
+		sourceColumn: AgeGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column Population-Male
+		dataType: string
+		lineageTag: ddb8caeb-5699-418c-9048-7dc3ed5ef6ef
+		summarizeBy: none
+		sourceColumn: Population-Male
+
+		annotation SummarizationSetBy = Automatic
+
+	column Population-Female
+		dataType: string
+		lineageTag: 81169dcf-1013-4c35-a080-144eb3392aac
+		summarizeBy: none
+		sourceColumn: Population-Female
+
+		annotation SummarizationSetBy = Automatic
+
+	partition population-2030-2040 = m
+		mode: import
+		queryGroup: source
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents("C:\Users\user\Downloads\source-files\population-2030-2040.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "Query1", Kind = "Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars=true]),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"LocID", "Location", "Time", "AgeGrp", "PopMale", "PopFemale"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"Location", "Country"}, {"LocID", "CountryId"}, {"Time", "Year"}, {"AgeGrp", "AgeGroup"}, {"PopMale", "Population-Male"}, {"PopFemale", "Population-Female"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each ([Year] <> null))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
