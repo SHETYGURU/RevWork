@@ -1,0 +1,7 @@
+Email,Country
+us_user@gmail.com,United States
+canada_user@gmail.com,Canada
+eu_user@gmail.com,France
+eu_user@gmail.com,Germany
+eu_user@gmail.com,United Kingdom
+admin@gmail.com,ALL
